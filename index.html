@@ -1,166 +1,195 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>The One System</title>
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#e60000">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
-<style>
-:root { --primario: #e60000; --oscuro: #0a0a0a; --blanco: rgba(255, 255, 255, 0.98); }
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
-body {
-background-color: #1a1a1a;
-background-image: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)),
-url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 100
-100'%3E%3Cpath d='M10 30 L50 15 L90 30 L50 45 Z' fill='%23333'/%3E%3Cpath d='M30 38 L30 50 C30 55 70 55 70 50 L70 38'
-fill='%23333'/%3E%3Ccircle cx='15' cy='35' r='3' fill='%23e60000'/%3E%3C/svg%3E");
-background-size: 120px;
-height: 100vh; overflow: hidden; display: flex; flex-direction: column;
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>The One System</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#e60000">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+    
+    <style>
+        :root { --primario: #e60000; --oscuro: #1a1a1a; --blanco: #ffffff; }
+        
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+        
+        body { 
+            background-color: var(--oscuro);
+            /* Fondo de birretes en código */
+            background-image: linear-gradient(rgba(0,0,0,0.9), rgba(0,0,0,0.9)), 
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 100 100'%3E%3Cpath d='M10 30 L50 15 L90 30 L50 45 Z' fill='%23333'/%3E%3Cpath d='M30 38 L30 50 C30 55 70 55 70 50 L70 38' fill='%23333'/%3E%3C/svg%3E");
+            height: 100vh; overflow: hidden; display: flex; flex-direction: column; 
+        }
 
-#login-page { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); z-index: 2000; display: flex; align-
-items: center; justify-content: center; padding: 20px; }
+        /* --- LOGIN --- */
+        #login-page { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(15px); z-index: 2000; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        .login-card { background: white; padding: 30px; border-radius: 30px; width: 100%; max-width: 360px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
+        
+        .btn { width: 100%; padding: 15px; border: none; border-radius: 12px; cursor: pointer; font-weight: bold; margin-bottom: 10px; font-size: 15px; transition: 0.3s; }
+        .btn-red { background: var(--primario); color: white; }
+        .btn-gray { background: #f0f0f0; color: #333; }
 
-.login-card { background: white; padding: 30px; border-radius: 30px; width: 100%; max-width: 380px; text-align: center; }
+        /* --- LOGO SVG --- */
+        .logo-box { margin-bottom: 20px; }
+        .logo-svg { width: 100%; max-width: 240px; height: auto; }
 
-.btn { width: 100%; padding: 16px; border: none; border-radius: 15px; cursor: pointer; font-weight: bold; margin-bottom: 12px; font-
-size: 15px; }
+        /* --- APP STRUCTURE --- */
+        #main-app { display: none; height: 100vh; flex-direction: column; position: relative; background: #f4f4f4; }
+        .topbar { background: white; padding: 15px; border-bottom: 3px solid var(--primario); }
+        .search-box { position: relative; margin-top: 10px; }
+        .search-box i { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #888; }
+        .search-box input { width: 100%; padding: 12px 12px 12px 40px; border-radius: 12px; border: 1px solid #ddd; outline: none; }
 
-#main-app { display: none; height: 100vh; flex-direction: column; position: relative; }
-.topbar { background: white; padding: 15px; border-bottom: 2px solid var(--primario); }
-.search-box { position: relative; margin-top: 10px; }
-.search-box input { width: 100%; padding: 12px 40px; border-radius: 15px; border: 1px solid #eee; background: #f9f9f9; }
-.main-content { flex: 1; overflow-y: auto; padding: 15px; padding-bottom: 100px; }
-.card { background: var(--blanco); padding: 20px; border-radius: 20px; margin-bottom: 15px; box-shadow: 0 10px 25px
-rgba(0,0,0,0.2); }
-table { width: 100%; border-collapse: collapse; }
-td { padding: 15px 5px; border-bottom: 1px solid #eee; }
-.nav-bar { position: absolute; bottom: 0; width: 100%; height: 80px; background: #000; display: flex; border-top: 4px solid var(--
-primario); }
-.nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #555; font-size: 12px; }
-.nav-item.active { color: #fff; }
-.panel { position: fixed; inset: 0; background: white; transform: translateY(100%); transition: 0.4s; z-index: 1000; padding: 25px; }
-.panel.open { transform: translateY(0); }
-.hidden { display: none !important; }
-input, select { width: 100%; padding: 15px; border-radius: 12px; border: 1px solid #ddd; margin: 10px 0; }
-.logo-svg { width: 100%; max-width: 250px; height: auto; }
-</style>
+        .main-content { flex: 1; overflow-y: auto; padding: 15px; padding-bottom: 90px; }
+        .card { background: white; padding: 15px; border-radius: 15px; margin-bottom: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        
+        table { width: 100%; border-collapse: collapse; }
+        td { padding: 15px 10px; border-bottom: 1px solid #eee; }
+
+        /* NAV BAR */
+        .nav-bar { position: absolute; bottom: 0; width: 100%; height: 75px; background: #000; display: flex; border-top: 3px solid var(--primario); }
+        .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #666; font-size: 11px; }
+        .nav-item.active { color: #fff; }
+        .nav-item i { font-size: 24px; margin-bottom: 4px; }
+
+        .hidden { display: none !important; }
+        input, select { width: 100%; padding: 14px; border-radius: 10px; border: 1px solid #ddd; margin: 8px 0; }
+        
+        .panel { position: fixed; inset: 0; background: white; transform: translateY(100%); transition: 0.4s ease; z-index: 1000; padding: 25px; }
+        .panel.open { transform: translateY(0); }
+    </style>
 </head>
 <body>
-<div id="login-page">
-<div class="login-card">
-<svg class="logo-svg" viewBox="0 0 400 280">
-<path d="M200 10 L370 65 L200 120 L30 65 Z" fill="#222"/>
-<path d="M110 80 L110 135 C110 150, 290 150, 290 135 L290 80" fill="#222"/>
-<circle cx="85" cy="75" r="12" fill="#e60000"/>
-<path d="M85 85 L75 145 L95 145 Z" fill="#e60000"/>
-<text x="50%" y="200" font-family="Arial" font-size="60" font-weight="900" text-anchor="middle">THE ONE</text>
-<rect x="70" y="220" width="260" height="40" fill="#000"/>
-<text x="200" y="248" font-family="Arial" font-size="24" fill="#fff" text-anchor="middle" letter-spacing="5">FOTOGRAFÍA</
-text>
-</svg>
-<div id="login-menu">
-<button class="btn" onclick="login('empleado')">EMPLEADO</button>
-<button class="btn" onclick="showAuth('gerente')">GERENTE</button>
-<button class="btn" style="background:#000;color:#fff" onclick="showAuth('director')">DIRECTOR</button>
-</div>
-<div id="login-auth" class="hidden">
-<h3 id="auth-title"></h3>
 
-<input type="text" id="user" placeholder="Usuario">
-<input type="password" id="pass" placeholder="Contraseña">
-<button class="btn" style="background:var(--primario);color:#fff" onclick="checkAuth()">ENTRAR</button>
-</div>
-</div>
-</div>
-<div id="main-app">
-<div class="topbar">
-<div style="display:flex; justify-content:space-between;">
-<span id="role-tag" style="background:#000;color:#fff;padding:5px 10px;border-radius:20px;font-size:10px"></span>
-<button id="btn-nuevo" class="hidden" onclick="openMod('mod-cli',true)">+ NUEVO</button>
-</div>
-<div class="search-box"><input type="text" id="search-input" placeholder="Buscar cliente..." oninput="render()"></div>
-</div>
-<div class="main-content">
-<div id="sec-clientes" class="content-section"><div class="card"><table id="lista-cli"></table></div></div>
-<div id="sec-gastos" class="content-section hidden"><button onclick="openMod('mod-gasto',true)">+ Gasto</button><div
-class="card"><table id="lista-gastos"></table></div></div>
-<div id="sec-balance" class="content-section hidden"><div class="card" id="balance-info"></div></div>
-</div>
-<div class="nav-bar">
-<div class="nav-item active" onclick="tab('clientes',this)"><i class="ti ti-users"></i><span>Clientes</span></div>
-<div id="nav-gas" class="nav-item hidden" onclick="tab('gastos',this)"><i class="ti ti-camera"></i><span>Gastos</span></div>
-<div id="nav-bal" class="nav-item hidden" onclick="tab('balance',this)"><i class="ti ti-chart-pie"></i><span>Balance</span></
-div>
-<div class="nav-item" onclick="location.reload()"><i class="ti ti-logout"></i><span>Salir</span></div>
-</div>
-</div>
-<!-- Modales -->
-<div id="mod-cli" class="panel">
-<h2>Nuevo Cliente</h2>
-<input type="text" id="n-cli" placeholder="Nombre">
-<select id="s-cli"><option>Graduación</option><option>Boda / XV</option></select>
-<input type="number" id="p-cli" placeholder="Anticipo">
-<button class="btn" style="background:#000;color:#fff" onclick="addCli()">GUARDAR</button>
-<button class="btn" onclick="openMod('mod-cli',false)">CERRAR</button>
-</div>
-<script>
-let db_c = JSON.parse(localStorage.getItem('theone_c')) || [];
-let db_g = JSON.parse(localStorage.getItem('theone_g')) || [];
-let cur_rol = '';
-if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js'); }
-function showAuth(t) {
-document.getElementById('auth-title').innerText = "ACCESO " + t.toUpperCase();
-document.getElementById('login-menu').classList.add('hidden');
-document.getElementById('login-auth').classList.remove('hidden');
-window.cur_type = t;
-}
-function checkAuth() {
-const u = document.getElementById('user').value;
-const p = document.getElementById('pass').value;
-if(window.cur_type === 'director' && u === 'admin' && p === '1234') login('director');
-else if(window.cur_type === 'gerente' && u === 'gerente01' && p === '2026') login('gerente');
-else alert("Error");
-}
-function login(rol) {
-cur_rol = rol;
-document.getElementById('login-page').style.display = 'none';
-document.getElementById('main-app').style.display = 'flex';
-document.getElementById('role-tag').innerText = rol.toUpperCase();
-if(rol !== 'empleado') document.getElementById('btn-nuevo').classList.remove('hidden');
-if(rol === 'director') {
-document.getElementById('nav-gas').classList.remove('hidden');
-document.getElementById('nav-bal').classList.remove('hidden');
-}
-render();
-}
-function render() {
-const q = document.getElementById('search-input').value.toLowerCase();
-const l = document.getElementById('lista-cli');
-l.innerHTML = '';
-db_c.filter(c => c.nom.toLowerCase().includes(q)).forEach(c => {
-let tr = document.createElement('tr');
-tr.innerHTML = `<td><b>${c.nom}</b><br><small>${c.serv}</small></td><td style="text-align:right;color:green">$${c.p}</td>`;
-l.appendChild(tr);
+    <div id="login-page">
+        <div class="login-card">
+            <div class="logo-box">
+                <svg class="logo-svg" viewBox="0 0 400 280" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M200 10 L370 65 L200 120 L30 65 Z" fill="#222"/>
+                    <path d="M110 80 L110 135 C110 150, 290 150, 290 135 L290 80" fill="#222"/>
+                    <circle cx="85" cy="75" r="12" fill="#e60000"/>
+                    <text x="50%" y="200" font-family="Arial" font-size="60" font-weight="900" text-anchor="middle">THE ONE</text>
+                    <rect x="70" y="220" width="260" height="40" fill="#000"/>
+                    <text x="200" y="248" font-family="Arial" font-size="24" fill="#fff" text-anchor="middle" letter-spacing="5">FOTOGRAFÍA</text>
+                </svg>
+            </div>
+            
+            <div id="login-menu">
+                <button class="btn btn-gray" onclick="login('empleado')">EMPLEADO</button>
+                <button class="btn btn-gray" onclick="showAuth('gerente')">GERENTE</button>
+                <button class="btn btn-red" onclick="showAuth('director')">DIRECTOR</button>
+            </div>
+            
+            <div id="login-auth" class="hidden">
+                <h3 id="auth-title" style="margin-bottom:15px"></h3>
+                <input type="text" id="user" placeholder="Usuario">
+                <input type="password" id="pass" placeholder="Contraseña">
+                <button class="btn btn-red" onclick="checkAuth()">ENTRAR</button>
+                <p onclick="location.reload()" style="font-size:12px; color:gray; cursor:pointer">Volver</p>
+            </div>
+        </div>
+    </div>
 
-});
-}
-function addCli() {
-const nom = document.getElementById('n-cli').value;
-if(!nom) return;
-db_c.push({ nom, serv: document.getElementById('s-cli').value, p: document.getElementById('p-cli').value });
-localStorage.setItem('theone_c', JSON.stringify(db_c));
-openMod('mod-cli', false); render();
-}
-function tab(s, el) {
-document.querySelectorAll('.content-section').forEach(x => x.classList.add('hidden'));
-document.querySelectorAll('.nav-item').forEach(x => x.classList.remove('active'));
-document.getElementById('sec-' + s).classList.remove('hidden');
-el.classList.add('active');
-}
-function openMod(id, s) { document.getElementById(id).classList.toggle('open', s); }
-</script>
+    <div id="main-app">
+        <div class="topbar">
+            <div style="display:flex; justify-content:space-between; align-items:center">
+                <span id="role-tag" style="background:#000; color:#fff; padding:5px 12px; border-radius:20px; font-size:11px"></span>
+                <button id="btn-nuevo" class="hidden" style="background:var(--primario); color:white; border:none; padding:8px 15px; border-radius:20px" onclick="openMod('mod-cli', true)">+ NUEVO</button>
+            </div>
+            <div class="search-box">
+                <i class="ti ti-search"></i>
+                <input type="text" id="search-input" placeholder="Buscar cliente..." oninput="render()">
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div id="sec-clientes" class="content-section">
+                <div class="card">
+                    <table id="lista-cli"></table>
+                </div>
+            </div>
+            <div id="sec-gastos" class="content-section hidden">
+                <h2 style="margin-bottom:10px">Gastos</h2>
+                <div class="card"><table id="lista-gastos"></table></div>
+            </div>
+        </div>
+
+        <div class="nav-bar">
+            <div class="nav-item active" onclick="tab('clientes', this)"><i class="ti ti-users"></i><span>Clientes</span></div>
+            <div id="nav-gas" class="nav-item hidden" onclick="tab('gastos', this)"><i class="ti ti-camera"></i><span>Gastos</span></div>
+            <div class="nav-item" onclick="location.reload()" style="color:var(--primario)"><i class="ti ti-logout"></i><span>Salir</span></div>
+        </div>
+    </div>
+
+    <div id="mod-cli" class="panel">
+        <h2>Nuevo Cliente</h2>
+        <input type="text" id="n-cli" placeholder="Nombre completo">
+        <select id="s-cli"><option>Graduación</option><option>Boda / XV</option></select>
+        <input type="number" id="p-cli" placeholder="Pago Inicial">
+        <button class="btn btn-red" onclick="addCli()">GUARDAR</button>
+        <button class="btn btn-gray" onclick="openMod('mod-cli', false)">CANCELAR</button>
+    </div>
+
+    <script>
+        let db_c = JSON.parse(localStorage.getItem('theone_c')) || [];
+        let cur_rol = '';
+
+        function showAuth(t) {
+            document.getElementById('auth-title').innerText = t.toUpperCase();
+            document.getElementById('login-menu').classList.add('hidden');
+            document.getElementById('login-auth').classList.remove('hidden');
+            window.target_rol = t;
+        }
+
+        function checkAuth() {
+            const u = document.getElementById('user').value;
+            const p = document.getElementById('pass').value;
+            if(window.target_rol === 'director' && u === 'admin' && p === '1234') login('director');
+            else if(window.target_rol === 'gerente' && u === 'gerente01' && p === '2026') login('gerente');
+            else alert("Error de acceso");
+        }
+
+        function login(rol) {
+            cur_rol = rol;
+            document.getElementById('login-page').style.display = 'none';
+            document.getElementById('main-app').style.display = 'flex';
+            document.getElementById('role-tag').innerText = rol.toUpperCase();
+            if(rol !== 'empleado') document.getElementById('btn-nuevo').classList.remove('hidden');
+            if(rol === 'director') document.getElementById('nav-gas').classList.remove('hidden');
+            render();
+        }
+
+        function render() {
+            const q = document.getElementById('search-input').value.toLowerCase();
+            const l = document.getElementById('lista-cli');
+            l.innerHTML = '';
+            db_c.filter(c => c.nom.toLowerCase().includes(q)).forEach(c => {
+                let tr = document.createElement('tr');
+                tr.innerHTML = `<td><b>${c.nom}</b><br><small>${c.serv}</small></td><td style="text-align:right; color:green; font-weight:bold">$${c.p}</td>`;
+                l.appendChild(tr);
+            });
+        }
+
+        function addCli() {
+            const nom = document.getElementById('n-cli').value;
+            if(!nom) return;
+            db_c.push({ nom, serv: document.getElementById('s-cli').value, p: document.getElementById('p-cli').value });
+            localStorage.setItem('theone_c', JSON.stringify(db_c));
+            openMod('mod-cli', false); render();
+        }
+
+        function tab(s, el) {
+            document.querySelectorAll('.content-section').forEach(x => x.classList.add('hidden'));
+            document.querySelectorAll('.nav-item').forEach(x => x.classList.remove('active'));
+            document.getElementById('sec-' + s).classList.remove('hidden');
+            el.classList.add('active');
+        }
+
+        function openMod(id, s) { document.getElementById(id).classList.toggle('open', s); }
+
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js').catch(() => {});
+        }
+    </script>
 </body>
 </html>
