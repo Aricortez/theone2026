@@ -4,6 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>The One System - Premium</title>
+    
+    <!-- CONFIGURACIÓN PWA -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#e60000">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="https://i.imgur.com/8YvLh6F.png">
+    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
     
     <style>
@@ -13,7 +21,6 @@
         
         body { 
             background-color: #f0f0f0;
-            /* PATRÓN DE BIRRETES GENERADO POR CÓDIGO (No necesita archivos externos) */
             background-image: 
                 linear-gradient(rgba(240, 240, 240, 0.85), rgba(240, 240, 240, 0.85)),
                 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cpath d='M10 30 L50 15 L90 30 L50 45 Z' fill='%23ccc'/%3E%3Cpath d='M30 38 L30 50 C30 55 70 55 70 50 L70 38' fill='%23ccc'/%3E%3Ccircle cx='15' cy='35' r='3' fill='%23e60000'/%3E%3C/svg%3E");
@@ -58,7 +65,7 @@
         .hidden { display: none !important; }
         input, select { width: 100%; padding: 14px; border-radius: 12px; border: 1px solid #ddd; margin: 10px 0; font-size: 16px; }
 
-        /* LOGO SVG (Tu diseño exacto) */
+        /* LOGO SVG */
         .logo-box { margin-bottom: 20px; text-align: center; }
         .logo-svg { width: 180px; height: auto; }
         .slogan { font-size: 12px; font-style: italic; color: #555; margin-top: 5px; }
@@ -282,6 +289,15 @@
             el.classList.add('active');
         }
         function openMod(id, s) { document.getElementById(id).classList.toggle('open', s); }
+
+        // --- REGISTRO DE SERVICE WORKER PARA INSTALACIÓN ---
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(reg => console.log('PWA: Activa'))
+                    .catch(err => console.log('PWA: Error', err));
+            });
+        }
     </script>
 </body>
 </html>
